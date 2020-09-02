@@ -5,7 +5,11 @@ pipeline{
     stages{
         stage('Build'){
             steps{
-                echo 'Building..'
+                dir('mock_svc'){
+                    echo 'Building..'
+                    pwd
+                }
+                
             }
         }
         stage('Test'){
