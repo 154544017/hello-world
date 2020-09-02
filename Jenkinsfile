@@ -7,7 +7,7 @@ pipeline{
             steps{
                 dir('mock_svc'){
                     echo 'Building..'
-                    pwd
+                    sh "pwd"
                 }
                 
             }
