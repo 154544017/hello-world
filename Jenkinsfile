@@ -11,7 +11,7 @@ pipeline {
                 script {
                     echo "FOO is '${FOO}'" // prints: FOO is 'initial FOO env value'
 
-                    env.BAR = "bar"
+                    env.BAR = test()
                 }
             }
         }
@@ -42,4 +42,8 @@ pipeline {
             }
         }
     }
+}
+
+def test(){
+    return "new"
 }
