@@ -2,20 +2,24 @@
 pipeline{
     agent any
     environment {
+        // 使用 returnStdout
         RELEASE_VERSION = ""
     }
     stages{
         stage('First Step'){
             steps{
                 echo "${env.RELEASE_VERSION}"
+                sh 'echo $RELEASE_version'
                 generateImgVersion()
                 echo "${env.RELEASE_VERSION}"
+                sh 'echo $RELEASE_version'
                 
             }
         }
         stage('Test'){
             steps{
                 echo "${env.RELEASE_VERSION}"
+                sh 'echo $RELEASE_version'
             }
         }
         stage('Deploy'){
