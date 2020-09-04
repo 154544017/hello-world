@@ -1,12 +1,14 @@
 #!/usr/bin/env groovy
 pipeline{
     agent any
-    environment {
+    environment{
+        CC = "aaa"
     }
     stages{
         stage('First Step'){
             steps{
                 script{
+                    echo "$CC"
                     var RELEASE_VERSION2 = generateImgVersion()
                     echo "$RELEASE_VERSION2"
                     env.RELEASE_VERSION = RELEASE_VERSION2
