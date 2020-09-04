@@ -1,20 +1,21 @@
 #!/usr/bin/env groovy
 pipeline{
     agent any
-
+    environment {
+        RELEASE_VERSION = ""
+    }
     stages{
-        stage('Build'){
+        stage('First Step'){
             steps{
-                dir('mock_svc'){
-                    echo 'Building..'
-                    sh "pwd"
-                }
+                echo "${RELEASE_VERSION}"
+                generateImgVersion()
+                echo "${RELEASE_VERSION}"
                 
             }
         }
         stage('Test'){
             steps{
-                echo 'Testing..'
+                echo "${RELEASE_VERSION}"
             }
         }
         stage('Deploy'){
@@ -23,5 +24,13 @@ pipeline{
             }
         }
     }
-    
+}
+
+def generateImgVersion(){
+    String semanticVersion = ''
+    if(fileExists('pom.xml')) {
+        semanticVersion =  "pomversion"
+    }
+    shortCommitID = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+    RELEASE_VERSION = "${semanticVersion}-${shortCommitID}-${env.BUILD_NUMBER}"
 }
