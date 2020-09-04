@@ -33,4 +33,5 @@ def generateImgVersion(){
     }
     shortCommitID = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
     RELEASE_VERSION = "${semanticVersion}-${shortCommitID}-${env.BUILD_NUMBER}"
+    echo "${RELEASE_VERSION}"
 }
