@@ -2,29 +2,22 @@
 pipeline{
     agent any
     environment {
-        // 使用 returnStdout
-        RELEASE_VERSION = ""
     }
     stages{
         stage('First Step'){
             steps{
                 script{
-                    echo "${RELEASE_VERSION}"
-                    sh 'echo $RELEASE_version'
                     var RELEASE_VERSION2 = generateImgVersion()
+                    echo "$RELEASE_VERSION2"
                     env.RELEASE_VERSION = RELEASE_VERSION2
                     echo "${env.RELEASE_VERSION}"
-                    sh 'echo $RELEASE_version'
                 }
                 
             }
         }
         stage('Test'){
             steps{
-                script{
-                    echo "${RELEASE_VERSION}"
-                    sh 'echo $RELEASE_version'
-                }
+                echo "${RELEASE_VERSION}"
             }
         }
         stage('Deploy'){
@@ -42,6 +35,6 @@ def generateImgVersion(){
     }
     shortCommitID = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
     RELEASE_VERSION = "${semanticVersion}-${shortCommitID}-${env.BUILD_NUMBER}"
-    echo "${RELEASE_VERSION}"
+    echo "function ${RELEASE_VERSION}"
     return RELEASE_VERSION
 }
