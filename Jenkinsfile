@@ -9,7 +9,7 @@ pipeline{
         stage('First Step'){
             steps{
                 script{
-                    echo "${env.RELEASE_VERSION}"
+                    echo "${RELEASE_VERSION}"
                     sh 'echo $RELEASE_version'
                     var RELEASE_VERSION2 = generateImgVersion()
                     env.RELEASE_VERSION = RELEASE_VERSION2
@@ -22,7 +22,7 @@ pipeline{
         stage('Test'){
             steps{
                 script{
-                    echo "${env.RELEASE_VERSION}"
+                    echo "${RELEASE_VERSION}"
                     sh 'echo $RELEASE_version'
                 }
             }
