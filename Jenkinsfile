@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         FOO = "initial FOO env value"
-        BAR = ""
     }
 
     stages {
@@ -13,6 +12,9 @@ pipeline {
                     echo "FOO is '${FOO}'" // prints: FOO is 'initial FOO env value'
 
                     env.BAR = test()
+                }
+                container('docker'){
+                    sh "docker ps"
                 }
             }
         }
