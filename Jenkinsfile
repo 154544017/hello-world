@@ -1,42 +1,45 @@
-#!/usr/bin/env groovy
-pipeline{
+pipeline {
     agent any
-    environment{
-        CC = "aaa"
-    }
-    stages{
-        stage('First Step'){
-            steps{
-                script{
-                    echo "$CC"
-                    var RELEASE_VERSION2 = generateImgVersion()
-                    echo "$RELEASE_VERSION2"
-                    env.RELEASE_VERSION = RELEASE_VERSION2
-                    echo "${RELEASE_VERSION}"
-                }
-                
-            }
-        }
-        stage('Test'){
-            steps{
-                echo "${RELEASE_VERSION}"
-            }
-        }
-        stage('Deploy'){
-            steps{
-                echo 'Deploying..'
-            }
-        }
-    }
-}
 
-def generateImgVersion(){
-    String semanticVersion = ''
-    if(fileExists('pom.xml')) {
-        semanticVersion =  "pomversion"
+    environment {
+        FOO = "initial FOO env value"
     }
-    shortCommitID = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-    RELEASE_VERSION = "${semanticVersion}-${shortCommitID}-${env.BUILD_NUMBER}"
-    echo "function ${RELEASE_VERSION}"
-    return RELEASE_VERSION
+
+    stages {
+        stage("Stage 1") {
+            steps {
+                script {
+                    echo "FOO is '${FOO}'" // prints: FOO is 'initial FOO env value'
+
+                    env.BAR = "bar"
+                }
+            }
+        }
+
+        stage("Stage 2") {
+            steps {
+                echo "env.BAR is '${BAR}'" // prints: env.BAR is 'bar'
+                echo "FOO is '${FOO}'" // prints: FOO is 'initial FOO env value'
+                echo "env.FOO is '${env.FOO}'" // prints: env.FOO is 'initial FOO env value'
+                script {
+                    FOO = "test2"
+                    env.BAR = "bar2"
+                }
+            }
+        }
+
+        stage("Stage 3") {
+            steps {
+                echo "FOO is '${FOO}'" // prints: FOO is 'test2'
+                echo "env.FOO is '${env.FOO}'" // prints: env.FOO is 'initial FOO env value'
+                echo "env.BAR is '${BAR}'" // prints: env.BAR is 'bar2'
+
+                script {
+                    FOO = "test3"
+                }
+
+                echo "FOO is '${FOO}'" // prints: FOO is 'test3'
+            }
+        }
+    }
 }
