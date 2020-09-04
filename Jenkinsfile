@@ -13,7 +13,7 @@ pipeline {
 
                     env.BAR = test()
                 }
-                container('docker'){
+                container('docker') {
                     sh "docker ps"
                 }
             }
