@@ -45,5 +45,10 @@ pipeline {
 }
 
 def test(){
-    return "new"
+        String semanticVersion = ''
+        if(fileExists('build.gradle')) {
+            semanticVersion =  "version"
+        shortCommitID = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+        RELEASE_VERSION = "${semanticVersion}-${shortCommitID}-${env.BUILD_NUMBER}"
+        return RELEASE_VERSION
 }
