@@ -10,7 +10,8 @@ pipeline{
             steps{
                 echo "${env.RELEASE_VERSION}"
                 sh 'echo $RELEASE_version'
-                generateImgVersion()
+                var RELEASE_VERSION2 = generateImgVersion()
+                env.RELEASE_VERSION = RELEASE_VERSION2
                 echo "${env.RELEASE_VERSION}"
                 sh 'echo $RELEASE_version'
                 
@@ -36,6 +37,7 @@ def generateImgVersion(){
         semanticVersion =  "pomversion"
     }
     shortCommitID = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-    env.RELEASE_VERSION = "${semanticVersion}-${shortCommitID}-${env.BUILD_NUMBER}"
+    RELEASE_VERSION = "${semanticVersion}-${shortCommitID}-${env.BUILD_NUMBER}"
     echo "${RELEASE_VERSION}"
+    return RELEASE_VERSION
 }
