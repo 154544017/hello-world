@@ -7,15 +7,15 @@ pipeline{
     stages{
         stage('First Step'){
             steps{
-                echo "${RELEASE_VERSION}"
+                echo "${env.RELEASE_VERSION}"
                 generateImgVersion()
-                echo "${RELEASE_VERSION}"
+                echo "${env.RELEASE_VERSION}"
                 
             }
         }
         stage('Test'){
             steps{
-                echo "${RELEASE_VERSION}"
+                echo "${env.RELEASE_VERSION}"
             }
         }
         stage('Deploy'){
