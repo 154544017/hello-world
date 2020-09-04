@@ -8,19 +8,23 @@ pipeline{
     stages{
         stage('First Step'){
             steps{
-                echo "${env.RELEASE_VERSION}"
-                sh 'echo $RELEASE_version'
-                var RELEASE_VERSION2 = generateImgVersion()
-                env.RELEASE_VERSION = RELEASE_VERSION2
-                echo "${env.RELEASE_VERSION}"
-                sh 'echo $RELEASE_version'
+                script{
+                    echo "${env.RELEASE_VERSION}"
+                    sh 'echo $RELEASE_version'
+                    var RELEASE_VERSION2 = generateImgVersion()
+                    env.RELEASE_VERSION = RELEASE_VERSION2
+                    echo "${env.RELEASE_VERSION}"
+                    sh 'echo $RELEASE_version'
+                }
                 
             }
         }
         stage('Test'){
             steps{
-                echo "${env.RELEASE_VERSION}"
-                sh 'echo $RELEASE_version'
+                script{
+                    echo "${env.RELEASE_VERSION}"
+                    sh 'echo $RELEASE_version'
+                }
             }
         }
         stage('Deploy'){
