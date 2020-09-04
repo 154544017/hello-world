@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         FOO = "initial FOO env value"
+        BAR = ""
     }
 
     stages {
