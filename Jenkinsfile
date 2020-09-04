@@ -12,7 +12,7 @@ pipeline{
                     var RELEASE_VERSION2 = generateImgVersion()
                     echo "$RELEASE_VERSION2"
                     env.RELEASE_VERSION = RELEASE_VERSION2
-                    echo "${env.RELEASE_VERSION}"
+                    echo "${RELEASE_VERSION}"
                 }
                 
             }
